@@ -2,22 +2,12 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
   def cache?
     false
   end
-  
-  def mappings
-    if redirects = render_part(:redirects)
-      YAML.load(redirects).inject({}) do |m,(k,v)|
-        m[clean_url(k)]=clean_url(v)
-        m
-      end
-    else
-      {}
-    end
-  end
 
   def process(request, response)
     super
-    request_uri = clean_url(request.request_uri)
-    if mappings.any? && location = mappings[request_uri]
+    request_uri = request.request_uri
+    mapper = Nostalgia::Mapper.from_content(render_part(:redirects))
+    if location = mapper.match(request_uri)
       @response.headers["Location"] = location
       @response.body = <<-HTML
 <html>
