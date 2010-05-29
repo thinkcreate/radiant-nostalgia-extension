@@ -1,0 +1,30 @@
+= Nostalgia
+
+An extension for the Radiant CMS for easily administrating legacy urls.
+
+
+== Idea
+
+Nostalgia adds a page type called "not found with redirects". This a 404-page with the possibility to 'rescue' requests using rewrite rules.
+
+
+== Usage
+
+- set the page type of the current 404 page to "not found with redirects"
+- add a page-part named "redirects"
+- define rewrite rules in this page-part
+
+Example rewrite rules:
+  /short-url/ => /page/with/long/url/
+  /old-section/(.*) => /new-section/$1
+
+
+== Meta
+
+Created by Gert Goet
+
+http://github.com/thinkcreate/radiant-nostalgia-extension
+
+Released under the MIT License: http://www.opensource.org/licenses/mit-license.php
+
+Enjoy!
