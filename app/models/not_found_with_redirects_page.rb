@@ -24,6 +24,15 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
 </html>
       HTML
       @response.status = 301
+    # else
+    #   nfr_url = if defined?(MultiSite)
+    #               Page.current_site.url(request_uri)
+    #             else
+    #               request_uri
+    #             end
+    #   nfr_ref = request.referrer
+    #   nfr = NotFoundRequest.find_or_initialize_by_url_and_referrer(nfr_url, nfr_ref)
+    #   nfr.save
     end
   end
   

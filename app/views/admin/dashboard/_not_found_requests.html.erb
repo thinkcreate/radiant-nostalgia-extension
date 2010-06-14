@@ -1,0 +1,31 @@
+<%- @not_found_requests = NotFoundRequest.all(:order=>"url ASC") -%>
+<div id="not_found_requests" class="dashboard_module">
+  <h2>Not Found Requests</h2>
+  
+  <p class="details">
+    Since <%= time_ago_in_words NotFoundRequest.reset_at %>
+    <%= link_to "Reset", admin_destroy_all_not_found_requests_url, \
+                        :confirm => 'Are you sure you want to remove all requests?', \
+                        :method => :delete, :class => 'delete' %>
+  </p>
+  
+  <table class="index sortable" cellspacing="0" >
+    <tr>
+      <th class="sortasc">Not Found</th>
+      <th>Referred by</th>
+      <th>Count</th>
+    </tr>
+    
+    <%- @not_found_requests.each do |nfr| -%>
+    <tr>
+      <td><%= nfr.url %></td>
+      <td><%= nfr.referrer %></td>
+      <td style="text-align:center"><%= nfr.count_created %></td>
+    </tr>
+    <%- end -%>
+  </table>
+  
+</div>
+
+<%- include_stylesheet 'admin/nostalgia' -%>
+<%- include_javascript 'admin/tablesort.js' -%>
