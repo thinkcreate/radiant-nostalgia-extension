@@ -31,19 +31,19 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
   def find_location(request_uri)
     captures = nil
     match = mappings.detect do |(from,to)|
-      captures = request_uri.scan(Regexp.new(from)).flatten
-      !captures.empty?
+      re = %r{^#{from}$}
+      captures = request_uri.scan(re).flatten
+      captures.any?
     end
     return nil unless match
     to = match.last
     build_path_from_captures(to, captures)
-    to
   end
   
   protected
   def build_path_from_captures(path, captures)
     captures.each_with_index do |cap, ix|
-      path.gsub!(%{$#{ix+1}}, cap)
+      path.gsub!("$#{ix+1}", cap)
     end
     path
   end
