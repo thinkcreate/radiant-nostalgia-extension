@@ -15,7 +15,7 @@ class NotFoundWithRewritesPage < FileNotFoundPage
   def process(request, response)
     super
     request_uri = request.request_uri
-    if location = find_location(request_uri)
+    if location = find_and_apply_rewrite(request_uri)
       @response.headers["Location"] = location
       @response.body = <<-HTML
 <html>
@@ -31,7 +31,7 @@ class NotFoundWithRewritesPage < FileNotFoundPage
   end
   
   protected
-  def find_location(request_uri)
+  def find_and_apply_rewrite(request_uri)
     captures = nil
     match = mappings.detect do |(from,to)|
       re = %r{^#{from}$}
