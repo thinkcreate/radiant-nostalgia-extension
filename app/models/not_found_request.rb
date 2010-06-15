@@ -1,5 +1,4 @@
 class NotFoundRequest < ActiveRecord::Base
-  validates_uniqueness_of :url
   
   def self.reset_at
     Radiant::Config['nostalgia.not_found_reset_at'] ||= Time.now
