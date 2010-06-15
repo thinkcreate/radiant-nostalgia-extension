@@ -3,7 +3,7 @@
 
 class NostalgiaExtension < Radiant::Extension
   version "0.3"
-  description "Easily administer legacy urls"
+  description "Easily track and administer not found pages"
   url "http://github.com/thinkcreate/radiant-nostalgia-extension"
   
   define_routes do |map|
@@ -13,13 +13,10 @@ class NostalgiaExtension < Radiant::Extension
   end
   
   def activate
-    # FileNotFoundPage.class_eval do
-    #   # include Nostalgia::PageExtension
-    #   
-    #   
-    # end
     FileNotFoundPage.send :include, Nostalgia::FileNotFoundPageExtensions
     NotFoundRequest.reset_at ||= Time.zone.now
+    Radiant::Config['nostalgia.rewrites_part_name'] ||= 'rewrites'
+    
     if admin.respond_to?(:dashboard)
       admin.dashboard.index.add :extensions, 'not_found_requests'
     end
