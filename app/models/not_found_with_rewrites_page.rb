@@ -31,11 +31,11 @@ class NotFoundWithRewritesPage < FileNotFoundPage
   end
   
   protected
-  def find_and_apply_rewrite(request_uri)
+  def find_and_apply_rewrite(uri)
     captures = nil
     match = mappings.detect do |(from,to)|
       re = %r{^#{from}$}
-      captures = request_uri.scan(re).flatten
+      captures = uri.scan(re).flatten
       captures.any?
     end
     return nil unless match
