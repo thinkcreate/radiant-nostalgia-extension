@@ -1,21 +1,43 @@
 = Nostalgia
 
-An extension for the Radiant CMS for easily administrating legacy urls.
+An extension for the Radiant CMS for easily tracking and rewriting legacy urls.
 
 
-== Idea
+== Overview
 
-Nostalgia adds a page type called "not found with redirects". This a 404-page with the possibility to 'rescue' requests using rewrite rules.
+=== Track
+
+Nostalgia tracks 404s that occur. Via the dashboard (using Jim Gay's dashboard extension http://github.com/saturnflyer/radiant-dashboard-extension) you get an overview of all requests that failed.
+
+=== Rewrite
+
+Nostalgia defines a page type called "not found with rewrites". This is a 404-page with the possibility to 'rescue' requests using rewrite rules.
 
 
-== Usage
+== Install
 
-- set the page type of the current 404 page to "not found with redirects"
-- add a page-part named "redirects"
+Install the extension:
+
+$ rake production radiant:extensions:nostalgia:migrate
+
+$ rake production radiant:extensions:nostalgia:update
+
+
+=== Track
+
+For viewing all the failed requests, just install the dashboard extension (http://github.com/saturnflyer/radiant-dashboard-extension, this extension was tested with revision d147225).
+
+
+=== Rewrite
+
+When you have an overview what urls fail, you can add rewrite rules:
+- set the page type of the current 404 page to "not found with rewrites"
+- add a page-part named "rewrites"
 - define rewrite rules in this page-part
 
 Example rewrite rules:
-  /short-url/ => /page/with/long/url/
+  /index.html => /
+  /short-url/? => /page/with/long/url/
   /old-section/(.*) => /new-section/$1
 
 
