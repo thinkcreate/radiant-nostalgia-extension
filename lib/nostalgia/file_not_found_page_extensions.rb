@@ -6,16 +6,20 @@ module Nostalgia::FileNotFoundPageExtensions
   end
   
   def process_with_stats(request,response)
-    nfr_ref, nfr_uri = request.referrer, request.request_uri
-    
-    nfr_url = if defined?(MultiSite)
-                Page.current_site.url(nfr_uri)
-              else
-                nfr_uri
-              end
-    nfr = NotFoundRequest.find_or_initialize_by_url_and_referrer(nfr_url, nfr_ref)
-    nfr.save
-    
     process_without_stats(request, response)
+    
+    @not_found_request = not_found_request(request.request_uri, request.referrer)
+  end
+  
+  
+  private
+  
+  def not_found_request(uri, referrer)
+    url = if defined?(MultiSite)
+            Page.current_site.url(uri)
+          else
+            uri
+          end
+    NotFoundRequest.find_or_initialize_by_url_and_referrer(url, referrer)
   end
 end
