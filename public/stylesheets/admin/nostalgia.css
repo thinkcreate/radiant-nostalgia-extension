@@ -25,6 +25,10 @@
   border-right:1px solid #EFEFEF;
 }
 
+#not_found_requests table.index td {
+  font-size:83%;
+}
+
 #not_found_requests table.index th.sortasc, #not_found_requests table.index th.sortdesc {
   font-weight:bold;
 }
