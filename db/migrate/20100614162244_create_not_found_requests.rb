@@ -6,7 +6,6 @@ class CreateNotFoundRequests < ActiveRecord::Migration
       t.integer :count_created, :default => 0
       t.timestamps
     end
-    # execute "UPDATE not_found_requests SET count_created = 0;"
   end
 
   def self.down

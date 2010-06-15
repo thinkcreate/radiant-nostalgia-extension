@@ -14,7 +14,7 @@ class NostalgiaExtension < Radiant::Extension
   
   def activate
     FileNotFoundPage.send :include, Nostalgia::FileNotFoundPageExtensions
-    NotFoundRequest.reset_at ||= Time.zone.now
+    NotFoundRequest.reset_at ||= Time.now
     Radiant::Config['nostalgia.rewrites_part_name'] ||= 'rewrites'
     
     if admin.respond_to?(:dashboard)

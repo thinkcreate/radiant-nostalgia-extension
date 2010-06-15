@@ -25,8 +25,7 @@ class NotFoundWithRewritesPage < FileNotFoundPage
 </html>
       HTML
       @response.status = 301
-    else
-      @not_found_request.save
+      @not_found_request.decrement_count_created!
     end
   end
   
