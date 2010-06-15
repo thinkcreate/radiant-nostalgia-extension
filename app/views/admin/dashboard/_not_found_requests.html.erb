@@ -18,8 +18,8 @@
     
     <%- @not_found_requests.each do |nfr| -%>
     <tr>
-      <td><%= nfr.url %></td>
-      <td><%= nfr.referrer %></td>
+      <td><%= nfr.url  %></td>
+      <td><%= nfr.referrer.blank? ? %{-} : link_to(nfr.referrer,nfr.referrer) %></td>
       <td style="text-align:center"><%= nfr.count_created %></td>
     </tr>
     <%- end -%>
