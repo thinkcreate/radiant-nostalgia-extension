@@ -1,0 +1,34 @@
+#not_found_requests {
+  width: 100%;
+}
+
+#not_found_requests p.details {
+  color:#999999;
+  font-size:0.8em; 
+}
+
+#not_found_requests .sortcol {
+  background-position:right center;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  padding-right:20px;
+}
+#not_found_requests .sortdesc {
+  background-image:url('/images/admin/down.gif');
+}
+#not_found_requests .sortasc {
+  background-image:url('/images/admin/up.gif');
+}
+
+#not_found_requests table.index th {
+  background-color:#C9C9C9;
+  border-right:1px solid #EFEFEF;
+}
+
+#not_found_requests table.index td {
+  font-size:83%;
+}
+
+#not_found_requests table.index th.sortasc, #not_found_requests table.index th.sortdesc {
+  font-weight:bold;
+}

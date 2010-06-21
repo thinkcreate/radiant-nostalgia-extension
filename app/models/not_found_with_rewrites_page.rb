@@ -1,4 +1,4 @@
-class NotFoundWithRedirectsPage < FileNotFoundPage
+class NotFoundWithRewritesPage < FileNotFoundPage
   def cache?
     false
   end
@@ -6,7 +6,8 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
   def mappings
     # [['/old','/new'],...]
     @mappings ||= begin
-      lines = render_part(:redirects).split(%{\r\n})
+      rewrite_part = Radiant::Config['nostalgia.rewrites_part_name']
+      lines = render_part(rewrite_part).split(%{\r\n})
       lines.inject([]){|res,line| res << line.split(/ +\=> +/, 2);res}
     end
   end
@@ -14,7 +15,7 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
   def process(request, response)
     super
     request_uri = request.request_uri
-    if location = find_location(request_uri)
+    if location = find_and_apply_rewrite(request_uri)
       @response.headers["Location"] = location
       @response.body = <<-HTML
 <html>
@@ -24,15 +25,16 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
 </html>
       HTML
       @response.status = 301
+      @not_found_request.decrement_count_created!
     end
   end
   
-  
-  def find_location(request_uri)
+  protected
+  def find_and_apply_rewrite(uri)
     captures = nil
     match = mappings.detect do |(from,to)|
       re = %r{^#{from}$}
-      captures = request_uri.scan(re).flatten
+      captures = uri.scan(re).flatten
       captures.any?
     end
     return nil unless match
@@ -40,7 +42,6 @@ class NotFoundWithRedirectsPage < FileNotFoundPage
     build_path_from_captures(to, captures)
   end
   
-  protected
   def build_path_from_captures(path, captures)
     captures.each_with_index do |cap, ix|
       path.gsub!("$#{ix+1}", cap)
